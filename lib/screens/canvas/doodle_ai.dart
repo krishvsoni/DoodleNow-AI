@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:doodle_for_gdsc/service/gpt_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -18,6 +19,7 @@ class DoodleAI extends StatefulWidget {
 
 class _DoodleAIState extends State<DoodleAI> {
   final SpeechToText _speechToText = SpeechToText();
+  final GptService _gptService = GptService.instance;
 
   bool _speechEnabled = false;
   String _lastWords = '';
