@@ -32,6 +32,18 @@ class _DoodleAIState extends State<DoodleAI> {
     _initSpeech();
   }
 
+  Future<String> getSvgCode(String object) async {
+    String svg = '';
+    final response = await _gptService.userMessage('$object.Give me svg code.');
+
+    final svgCode = response!.choices.first.message!.content;
+
+    svg = svgCode.split('```')[1].split('html').last.trim();
+
+    // log(svg);
+    return svg;
+  }
+
   void _initSpeech() async {
     _speechEnabled = await _speechToText.initialize(onStatus: (value) {
       // statusListener(value);
@@ -63,11 +75,17 @@ class _DoodleAIState extends State<DoodleAI> {
 
       print(_lastWords);
 
+      // print('last word  $object');
+
       widget.loadingCallback(true);
 
-      widget.loadingCallback(false);
+      final rawSvg = await getSvgCode(_lastWords);
 
-      // widget.onGptCalled(pictureInfo);
+      final PictureInfo pictureInfo =
+          await vg.loadPicture(SvgStringLoader(rawSvg), null);
+
+      widget.loadingCallback(false);
+      widget.onGptCalled(pictureInfo);
     });
   }
 
