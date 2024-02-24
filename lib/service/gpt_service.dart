@@ -12,7 +12,7 @@ class GptService {
         receiveTimeout: const Duration(seconds: 30),
       ),
     );
-    handleInitialMessage('You are a svg coding assistant');
+    handleInitialMessage('You are a svg coding assistant now be my svg GPT');
   }
 
   static GptService getInstance() {
